@@ -1,2 +1,12 @@
-# XBug
-Welcome To XBug A Program I made I am a python coder Level 2 and I am learning bug bounty so I made this program to help me I am just a beginner so there isn't a lot of options to chose from.
+# XBug Installation
+
+Welcome to **XBug**! To Install it follow these steps.
+
+## Installation Steps:
+```bash
+   git clone https://github.com/ohioguy123/XBug.git
+   cd XBug
+   pip install -r requirements.txt
+   python3 main.py
+```
+# Enjoy using XBug! Happy Hacking! 🎉
