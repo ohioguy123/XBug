@@ -9,4 +9,5 @@ Welcome to **XBug**! To Install it follow these steps.
    pip install -r requirements.txt
    python3 main.py
 ```
+Version: 1.1
 # Enjoy using XBug! Happy Hacking! 🎉
