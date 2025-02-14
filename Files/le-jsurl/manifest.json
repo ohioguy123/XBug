@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Lazy Egg JS URL Exfiltrator",
+  "version": "1.0",
+  "description": "le Lazy Egg",
+  "permissions": ["tabs", "activeTab", "<all_urls>", "storage"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lazyegg.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_action": {
+    "default_title": "Lazy Egg",
+    "default_popup": "tinkerbell.html"
+  },
+  "web_accessible_resources": [
+    "lazyegg-injected.js"
+  ]
+}
+
