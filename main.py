@@ -64,7 +64,7 @@ def url_scanner_checker(url, valid_file, invalid_file):
 main_screen = rf"""
 {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
 {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.2{Fore.WHITE}
+{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.3{Fore.WHITE}
 {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True{Fore.WHITE}
 {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
 {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
