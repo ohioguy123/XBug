@@ -1,6 +1,7 @@
 import os
 import colorama
 import time
+import requests
 from colorama import Fore
 import webbrowser
 
@@ -8,10 +9,30 @@ os.system('cls' if os.name == 'nt' else 'clear')
 
 colorama.init(autoreset=True)
 
+def url_scanner_checker(url, valid_file, invalid_file):
+    try:
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            print(f"{Fore.GREEN}200 - {url}{Fore.WHITE}")
+            with open(valid_file, "a") as v_file:
+                v_file.write(url + "\n")
+        elif response.status_code == 404:
+            print(f"{Fore.RED}404 - {url}{Fore.WHITE}")
+            with open(invalid_file, "a") as i_file:
+                i_file.write(url + "\n")
+        else:
+            print(f"{Fore.YELLOW}{response.status_code} - {url}{Fore.WHITE}")
+            with open(invalid_file, "a") as i_file:
+                i_file.write(url + "\n")
+    except requests.RequestException:
+        print(f"{Fore.RED}Invalid URL - {url}{Fore.WHITE}")
+        with open(invalid_file, "a") as i_file:
+            i_file.write(url + "\n")
+
 main_screen = rf"""
 {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
 {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.1{Fore.WHITE}
+{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.2{Fore.WHITE}
 {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True{Fore.WHITE}
 {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
 {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -29,7 +50,7 @@ if main_load == "1":
         main_menu_screen = rf"""
         {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
         {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.1 
+        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.2 
         {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True
         {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
         {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -42,6 +63,7 @@ if main_load == "1":
         [{Fore.RED}0{Fore.BLUE}3{Fore.WHITE}] {Fore.RED}WayBackArchive {Fore.YELLOW}Instant{Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}4{Fore.WHITE}] {Fore.GREEN}Blind XSS {Fore.WHITE}Full {Fore.RED}Account{Fore.WHITE} TakeOver {Fore.RED}( Tutorial ){Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}5{Fore.WHITE}] {Fore.YELLOW}PDF {Fore.WHITE}Stored {Fore.GREEN}XSS{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}6{Fore.WHITE}] {Fore.WHITE}URL {Fore.RED}Scanner {Fore.WHITE}
         """
         print(main_menu_screen)
         main_menu_screen_choice = input("</#root\> ")
@@ -95,7 +117,7 @@ if main_load == "1":
             os.system('cls' if os.name == 'nt' else 'clear')
 
         elif main_menu_screen_choice == "4":
-            print("""
+            print(""" 
             HTMLi:
             <font color="red">ERROR 1064 (42000): You have an error in your SQL syntax;
 
@@ -130,5 +152,24 @@ if main_load == "1":
     
             with open("pdf_xss.pdf", "w") as pdf_file:
                 pdf_file.write(pdf_code)
+            input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif main_menu_screen_choice == "6":
+            print("Example: urls.txt ( make sure it exits )")
+            file_txt_checker = input("txt file: ")
+            if not os.path.exists(file_txt_checker):
+                print(f"{Fore.RED}Error: File not found!{Fore.WHITE}")
+                continue
+            
+            valid_file = file_txt_checker.replace(".txt", "_valid.txt")
+            invalid_file = file_txt_checker.replace(".txt", "_invalid.txt")
+
+            with open(file_txt_checker, "r") as file:
+                urls = file.read().splitlines()
+
+            for url in urls:
+                url_scanner_checker(url, valid_file, invalid_file)
+
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
