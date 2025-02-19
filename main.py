@@ -10,18 +10,27 @@ os.system('cls' if os.name == 'nt' else 'clear')
 
 colorama.init(autoreset=True)
 
-xss_payloads = [
-    "<script>alert('XSS')</script>",
-    "<img src=x onerror=alert('XSS')>",
-    "'><script>alert(1)</script>"
-]
+def load_payloads_xss(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return [line.strip() for line in file if line.strip()]
+    return []
 
-sql_payloads = [
-    "' OR '1'='1",
-    "' OR '1'='1' --",
-    "' OR '1'='1' #",
-    "' OR '1'='1"
-]
+payloads_folder = "Payloads"
+xss_payloads_file = os.path.join(payloads_folder, "xss.txt")
+
+xss_payloads = load_payloads_xss(xss_payloads_file)
+
+def load_payloads_sqli(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return [line.strip() for line in file if line.strip()]
+    return []
+
+payloads_folder_sql = "Payloads/Sqli"
+sql_payloads_file = os.path.join(payloads_folder, "xor.txt")
+
+sql_payloads = load_payloads_xss(sql_payloads_file)
 
 def payload_scan_xss(url):
     for payload in xss_payloads:
@@ -211,13 +220,13 @@ if main_load == "1":
         elif main_menu_screen_choice == "7":
             print("with parameter (http://site.com/index.php?id=):")
             website_target_xss = input("Website: ")
-            payload_scan_xss(url)
+            payload_scan_xss(website_target_xss)
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
 
         elif main_menu_screen_choice == "8":
             print("with parameter (http://site.com/index.php?id=):")
-            website_target_xss = input("Website: ")
-            payload_scan_sql(url)
+            website_target_sql = input("Website: ")
+            payload_scan_sql(website_target_sql)
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
