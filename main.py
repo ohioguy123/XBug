@@ -106,7 +106,7 @@ if main_load == "1":
         [{Fore.RED}0{Fore.BLUE}5{Fore.WHITE}] {Fore.YELLOW}PDF {Fore.WHITE}Stored {Fore.GREEN}XSS{Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}6{Fore.WHITE}] {Fore.WHITE}URL {Fore.RED}Scanner{Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}7{Fore.WHITE}] {Fore.GREEN}XSS {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
-        [{Fore.RED}0{Fore.BLUE}8{Fore.WHITE}] {Fore.BLUE}SQL {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}8{Fore.WHITE}] {Fore.BLUE}SQLI {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
         """
         print(main_menu_screen)
         main_menu_screen_choice = input("</#root\> ")
