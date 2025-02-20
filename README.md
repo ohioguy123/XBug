@@ -6,7 +6,7 @@ Welcome to **XBug**! To Install it follow these steps.
 ```bash
 git clone https://github.com/ohioguy123/XBug.git
 cd XBug
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 python3 main.py
 ```
 Version: 1.4
