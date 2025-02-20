@@ -4,7 +4,7 @@ import time
 import requests
 from colorama import Fore
 import webbrowser
-from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -73,7 +73,7 @@ def url_scanner_checker(url, valid_file, invalid_file):
 main_screen = rf"""
 {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
 {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.3{Fore.WHITE}
+{Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.4{Fore.WHITE}
 {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True{Fore.WHITE}
 {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
 {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -91,7 +91,7 @@ if main_load == "1":
         main_menu_screen = rf"""
         {Fore.RED}██╗  ██╗{Fore.BLUE}██████╗ ██╗   ██╗ ██████╗
         {Fore.RED}╚██╗██╔╝{Fore.BLUE}██╔══██╗██║   ██║██╔════╝ 
-        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.3
+        {Fore.RED} ╚███╔╝ {Fore.BLUE}██████╔╝██║   ██║██║  ███╗  {Fore.WHITE}Version = {Fore.GREEN}1.4
         {Fore.RED} ██╔██╗ {Fore.BLUE}██╔══██╗██║   ██║██║   ██║  {Fore.WHITE}Lastest Version: {Fore.GREEN}True
         {Fore.RED}██╔╝ ██╗{Fore.BLUE}██████╔╝╚██████╔╝╚██████╔╝
         {Fore.RED}╚═╝  ╚═╝{Fore.BLUE}╚═════╝  ╚═════╝  ╚═════╝ 
@@ -106,7 +106,8 @@ if main_load == "1":
         [{Fore.RED}0{Fore.BLUE}5{Fore.WHITE}] {Fore.YELLOW}PDF {Fore.WHITE}Stored {Fore.GREEN}XSS{Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}6{Fore.WHITE}] {Fore.WHITE}URL {Fore.RED}Scanner{Fore.WHITE}
         [{Fore.RED}0{Fore.BLUE}7{Fore.WHITE}] {Fore.GREEN}XSS {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
-        [{Fore.RED}0{Fore.BLUE}8{Fore.WHITE}] {Fore.BLUE}SQLI {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}8{Fore.WHITE}] {Fore.BLUE}SQLi {Fore.YELLOW}Payload {Fore.WHITE}Scanner{Fore.WHITE}
+        [{Fore.RED}0{Fore.BLUE}9{Fore.WHITE}] {Fore.WHITE}URL {Fore.RED}Downloader{Fore.WHITE}
         """
         print(main_menu_screen)
         main_menu_screen_choice = input("</#root\> ")
@@ -228,5 +229,35 @@ if main_load == "1":
             print("with parameter (http://site.com/index.php?id=):")
             website_target_sql = input("Website: ")
             payload_scan_sql(website_target_sql)
+            input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+        elif main_menu_screen_choice == "9":
+            downloader = input("URLs txt file: ").strip()
+    
+            if not os.path.exists(downloader):
+                print(f"{Fore.RED}Error: File not found!{Fore.WHITE}")
+                input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
+                continue
+
+            os.makedirs("Downloads", exist_ok=True)
+
+            with open(downloader, "r", encoding="utf-8") as file:
+                urls = file.read().splitlines()
+
+            for url in urls:
+                try:
+                    response = requests.get(url, stream=True, timeout=10)
+                    if response.status_code == 200:
+                        filename = os.path.join("Downloads", os.path.basename(urlparse(url).path) or "downloaded_file")
+                        with open(filename, "wb") as f:
+                            for chunk in response.iter_content(chunk_size=1024):
+                                f.write(chunk)
+                        print(f"{Fore.GREEN}Downloaded: {filename}{Fore.WHITE}")
+                    else:
+                        print(f"{Fore.YELLOW}Failed: {url} (Status: {response.status_code}){Fore.WHITE}")
+                except requests.RequestException as e:
+                    print(f"{Fore.RED}Error downloading: {url} ({str(e)}){Fore.WHITE}")
+
             input(f"{Fore.BLUE}Press Enter to go back{Fore.RED}...")
             os.system('cls' if os.name == 'nt' else 'clear')
